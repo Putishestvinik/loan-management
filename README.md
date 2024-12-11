@@ -23,9 +23,11 @@ This is a RESTful API for managing loans. It allows users to perform CRUD operat
 ### Steps
 - Clone the repository.
 - Install dependencies: `composer install`
-- Update the .env file with your database credentials.
+- Remove `.example` extension from `.env.example` file and update it with your database credentials.
 - Run migrations and seed the database: `php artisan migrate --seed`
-- - The default user's password is 'password'
+  - The default user's password is 'password' for logging in
+- Generate the app encryption key: `php artisan key:generate`
+- Generate the JWT secret key: `php artisan jwt:secret`
 - Start the development server: `php artisan serve`
 
 ### API Endpoints
