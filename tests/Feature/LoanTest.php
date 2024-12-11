@@ -14,8 +14,6 @@ class LoanTest extends TestCase {
 
     /**
      * Test fetching all loans
-     *
-     * @return void
      */
     public function test_user_can_fetch_all_loans() {
         // Create 10 loans
@@ -30,8 +28,6 @@ class LoanTest extends TestCase {
 
     /**
      * Test user can create a loan
-     *
-     * @return void
      */
     public function test_user_can_create_loan() {
         $user = User::factory()->create();
@@ -53,8 +49,6 @@ class LoanTest extends TestCase {
 
     /**
      * Test only lender can update a loan
-     *
-     * @return void
      */
     public function test_only_lender_can_update_a_loan() {
         $lender = User::factory()->create();
@@ -75,6 +69,9 @@ class LoanTest extends TestCase {
         $this->assertDatabaseHas('loans', ['amount' => 60000]);
     }
 
+    /**
+     * Test that only original lender can delete a loan
+     */
     public function test_only_lender_can_delete_a_loan() {
         $lender = User::factory()->create();
         $loan = Loan::factory()->create(['lender_id' => $lender->id]);
@@ -84,6 +81,27 @@ class LoanTest extends TestCase {
         $response = $this->deleteJson("/api/loans/{$loan->id}");
 
         $response->assertStatus(204);
+        $this->assertDatabaseMissing('loans', ['id' => $loan->id]);
+    }
+
+    /**
+     * Test if loans are deleted in case the original lender is deleted
+     */
+    public function test_user_and_loans_are_deleted() {
+        // Create user and loans
+        $user = User::factory()->create();
+        $loan = Loan::factory()->create([
+            'lender_id' => $user->id,
+            'borrower_id' => User::factory()->create()->id,
+        ]);
+
+        // Ensure the loan exists
+        $this->assertDatabaseHas('loans', ['id' => $loan->id]);
+
+        // Delete the user
+        $user->delete();
+
+        // Assert that the loan is deleted
         $this->assertDatabaseMissing('loans', ['id' => $loan->id]);
     }
 }

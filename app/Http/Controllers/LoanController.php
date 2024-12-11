@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 class LoanController extends Controller {
 
     /**
-     * Display a listing of the resource.
+     * Get all Loans
      */
     public function index()
     {
@@ -19,12 +19,7 @@ class LoanController extends Controller {
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create() {}
-
-    /**
-     * Store a newly created resource in storage.
+     * Store a newly created Loan in DB.
      */
     public function store(Request $request) {
         // validate input before creating
@@ -52,19 +47,14 @@ class LoanController extends Controller {
     }
 
     /**
-     * Display the specified resource.
+     * Display the specific Loan.
      */
     public function show(Loan $loan) {
         return $loan;
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Loan $loan) {}
-
-    /**
-     * Update the specified resource in storage.
+     * Update the specified resource in DB.
      */
     public function update(Request $request, Loan $loan) {
         if ($loan->lender_id !== Auth::id()) {
@@ -95,7 +85,7 @@ class LoanController extends Controller {
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specific Loan from DB.
      */
     public function destroy(Loan $loan) {
         if ($loan->lender_id !== Auth::id()) {

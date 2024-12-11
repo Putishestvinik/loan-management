@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamps();
 
             // MED: lender and borrower
-            $table->foreign('lender_id')->references('id')->on('users');
+            $table->foreign('lender_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('borrower_id')->references('id')->on('users');
         });
     }

@@ -10,25 +10,31 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller {
 
+    /**
+     * Register user with provided name, email and password
+     */
     public function register(Request $request) {
         // Validate input
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8', // Make sure passwords match
+            'password' => 'required|min:8',
         ]);
 
         // Create user
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password' => Hash::make($validated['password']), // Hash the password
+            'password' => Hash::make($validated['password']),
         ]);
 
         // Return the user or a success message
         return response()->json(['message' => 'Registered successfully. Now you need to login', 'user' => $user], 200);
     }
 
+    /**
+     * Login user with provided credentials and return JWT token
+     */
     public function login(Request $request) {
         // Validate input
         $validated = $request->validate([
