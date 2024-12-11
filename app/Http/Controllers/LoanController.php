@@ -100,6 +100,6 @@ class LoanController extends Controller {
             return response()->json(['message' => 'Unexpected error encountered while deleting your Loan'], 500);
         }
 
-        return response()->json(['message' => 'Loan was deleted successfully'], 204);
+        return response()->json(['message' => 'Loan was deleted successfully'], 200);
     }
 }

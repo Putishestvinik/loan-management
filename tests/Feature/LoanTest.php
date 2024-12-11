@@ -80,7 +80,7 @@ class LoanTest extends TestCase {
 
         $response = $this->deleteJson("/api/loans/{$loan->id}");
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
         $this->assertDatabaseMissing('loans', ['id' => $loan->id]);
     }
 
